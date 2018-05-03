@@ -35,7 +35,7 @@ namespace Quiz_react.Controllers
             _logger = logger;
             _context = context;
         }
-
+        
         public IActionResult Index()
         {
             return View();
@@ -67,7 +67,7 @@ namespace Quiz_react.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToPage("hej");
+                    return RedirectToAction("Home","Index");
                 }
                 else
                 {
@@ -111,7 +111,7 @@ namespace Quiz_react.Controllers
 
                 {
 
-                    var role = new IdentityUserRole<string> { UserId = user.Id, RoleId = _context.Roles.Where(r => r.Name == "Member").First().Id};
+                    var role = new IdentityUserRole<string> { UserId = user.Id, RoleId = _context.Roles.Where(r => r.Name == "Member").First().Id };
 
                     _context.Add(role);
 
@@ -187,6 +187,15 @@ namespace Quiz_react.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
