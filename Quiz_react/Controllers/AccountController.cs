@@ -18,7 +18,7 @@ namespace Quiz_react.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
@@ -26,12 +26,12 @@ namespace Quiz_react.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<AccountController> logger,
-            IEmailSender emailSender,
+            //IEmailSender emailSender,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _logger = logger;
             _context = context;
         }
@@ -141,11 +141,11 @@ namespace Quiz_react.Controllers
 
 
 
-                    var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
 
-                    var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+                    //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
 
-                    await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+                    //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
 
 
 
@@ -167,6 +167,26 @@ namespace Quiz_react.Controllers
 
             return View(model);
 
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
         }
     }
 }
