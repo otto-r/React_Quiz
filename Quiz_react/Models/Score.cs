@@ -11,5 +11,6 @@ namespace Quiz_react.Models
         //public int UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
         public int Points { get; set; }
+        public DateTime DateTime { get; set; }
     }
 }

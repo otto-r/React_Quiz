@@ -8,5 +8,6 @@ namespace Quiz_react.Models
 {
     public class ApplicationUser : IdentityUser
     {
+        public virtual List<Score> Scores{ get; set; }
     }
 }

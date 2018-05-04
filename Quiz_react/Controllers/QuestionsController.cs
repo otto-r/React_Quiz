@@ -11,7 +11,6 @@ using Quiz_react.Models;
 
 namespace Quiz_react.Controllers
 {
-    [Authorize]
     [Produces("application/json")]
     [Route("api/Questions")]
     public class QuestionsController : Controller
@@ -21,6 +20,13 @@ namespace Quiz_react.Controllers
         public QuestionsController(ApplicationDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        [Route("Submit")]
+        public int SubmitAnswer(string answer)
+        {
+            return 1;
         }
 
         // GET: api/Questions
