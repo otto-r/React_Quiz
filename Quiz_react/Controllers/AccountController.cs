@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Quiz_react.Data;
 using Quiz_react.Models;
 using Quiz_react.Models.ViewModels;
+using Quiz_react.Services;
 
 namespace Quiz_react.Controllers
 {
@@ -17,6 +18,7 @@ namespace Quiz_react.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        //private readonly IEmailSender _emailSender;
         private readonly ILogger _logger;
         private readonly ApplicationDbContext _context;
 
@@ -24,14 +26,16 @@ namespace Quiz_react.Controllers
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
             ILogger<AccountController> logger,
+            //IEmailSender emailSender,
             ApplicationDbContext context)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            //_emailSender = emailSender;
             _logger = logger;
             _context = context;
         }
-
+        
         public IActionResult Index()
         {
             return View();
@@ -63,7 +67,7 @@ namespace Quiz_react.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToPage("hej");
+                    return RedirectToAction("");
                 }
                 else
                 {
@@ -74,6 +78,124 @@ namespace Quiz_react.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register(string returnUrl = null)
+
+        {
+
+            ViewData["ReturnUrl"] = returnUrl;
+
+            return View();
+
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel model, string returnUrl = null)
+
+        {
+
+            ViewData["ReturnUrl"] = returnUrl;
+
+            if (ModelState.IsValid)
+
+            {
+
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+
+                if (_userManager.Users.Any())
+
+                {
+
+                    var role = new IdentityUserRole<string> { UserId = user.Id, RoleId = _context.Roles.Where(r => r.Name == "Member").First().Id };
+
+                    _context.Add(role);
+
+                }
+
+                else
+
+                {
+
+                    var role = new IdentityUserRole<string> { UserId = user.Id, RoleId = _context.Roles.Where(r => r.Name == "Admin").First().Id };
+
+                    _context.Add(role);
+
+                }
+
+                var result = await _userManager.CreateAsync(user, model.Password);
+
+                if (result.Succeeded)
+
+                {
+
+                    await _context.SaveChangesAsync();
+
+
+
+                    _logger.LogInformation("User created a new account with password.");
+
+
+
+                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+                    //var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
+
+                    //await _emailSender.SendEmailConfirmationAsync(model.Email, callbackUrl);
+
+
+
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+
+                    _logger.LogInformation("User created a new account with password.");
+
+                    return RedirectToLocal(returnUrl);
+
+                }
+
+                AddErrors(result);
+
+            }
+
+
+
+            // If we got this far, something failed, redisplay form
+
+            return View(model);
+
+        }
+
+        private void AddErrors(IdentityResult result)
+        {
+            foreach (var error in result.Errors)
+            {
+                ModelState.AddModelError(string.Empty, error.Description);
+            }
+        }
+
+        private IActionResult RedirectToLocal(string returnUrl)
+        {
+            if (Url.IsLocalUrl(returnUrl))
+            {
+                return Redirect(returnUrl);
+            }
+            else
+            {
+                return RedirectToAction(nameof(HomeController.Index), "Home");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }

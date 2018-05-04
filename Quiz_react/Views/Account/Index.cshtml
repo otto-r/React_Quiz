@@ -6,3 +6,10 @@
 <h2>Index</h2>
 
 <a asp-action="Login" asp-route-returnurl="Login">Log In</a>
+<form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="form-inline mt-2 mt-md-0 nav-link">
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <button type="submit" class="btn btn-default">Log out</button>
+        </li>
+    </ul>
+</form>

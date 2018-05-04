@@ -15,21 +15,21 @@ namespace Quiz.Models
             context.Database.EnsureCreated();
 
 
-            //if (context.Roles.Any())
-            //{
-            //    return;   // DB has been seeded
-            //}
+            if (context.Roles.Any())
+            {
+                return;   // DB has been seeded
+            }
 
             //Wipes the db clean
-            context.Questions.RemoveRange(context.Questions);
-            context.Scores.RemoveRange(context.Scores);
+            //context.Questions.RemoveRange(context.Questions);
+            //context.Scores.RemoveRange(context.Scores);
 
-            context.Roles.RemoveRange(context.Roles);
-            context.RoleClaims.RemoveRange(context.RoleClaims);
-            context.UserClaims.RemoveRange(context.UserClaims);
-            context.UserLogins.RemoveRange(context.UserLogins);
-            context.UserRoles.RemoveRange(context.UserRoles);
-            context.Users.RemoveRange(context.Users);
+            //context.Roles.RemoveRange(context.Roles);
+            //context.RoleClaims.RemoveRange(context.RoleClaims);
+            //context.UserClaims.RemoveRange(context.UserClaims);
+            //context.UserLogins.RemoveRange(context.UserLogins);
+            //context.UserRoles.RemoveRange(context.UserRoles);
+            //context.Users.RemoveRange(context.Users);
 
 
             context.Roles.AddRange(

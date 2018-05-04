@@ -1,0 +1,9 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Quiz_react/v15/.suo
+/.vs/React_Quiz/v15/.suo
+/.vs/config/applicationhost.config
+/.vs/Quiz_react/v15/Server/sqlite3
+/.vs
