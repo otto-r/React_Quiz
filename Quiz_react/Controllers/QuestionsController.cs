@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,7 @@ using Quiz_react.Models;
 
 namespace Quiz_react.Controllers
 {
+    [Authorize]
     [Produces("application/json")]
     [Route("api/Questions")]
     public class QuestionsController : Controller
