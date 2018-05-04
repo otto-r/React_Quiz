@@ -67,7 +67,7 @@ namespace Quiz_react.Controllers
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
-                    return RedirectToAction("Home","Index");
+                    return RedirectToAction("");
                 }
                 else
                 {

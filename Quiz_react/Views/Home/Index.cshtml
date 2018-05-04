@@ -2,6 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+<div id="react-app">Loading...</div>
 
-<h2>Index page</h2>
-<a asp-action="SPA" asp-route-returnurl="HOME">SPA-page</a>
+@section scripts {
+    <script src="~/dist/main.js" asp-append-version="true"></script>
+}

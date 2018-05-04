@@ -17,12 +17,6 @@ namespace Quiz_react.Controllers
             return View();
         }
 
-        [Authorize]
-        public IActionResult SPA()
-        {
-            return View();
-        }
-
         public IActionResult Error()
         {
             ViewData["RequestId"] = Activity.Current?.Id ?? HttpContext.TraceIdentifier;
