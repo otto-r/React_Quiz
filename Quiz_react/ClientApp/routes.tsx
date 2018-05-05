@@ -4,10 +4,12 @@ import { Layout } from './components/Layout';
 import { Home } from './components/Home';
 import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
+import { HighScore } from './components/HighScore';
 
 
 export const routes = <Layout>
     <Route exact path='/' component={ Home } />
     <Route path='/counter' component={ Counter } />
     <Route path='/fetchdata' component={ FetchData } />
+    <Route path='/highscore' component={ HighScore } />
 </Layout>;

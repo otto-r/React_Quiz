@@ -23,10 +23,24 @@ namespace Quiz_react.Controllers
         }
 
         [HttpGet]
-        [Route("Submit")]
-        public int SubmitAnswer(string answer)
+        [Route("SubmitScore")]
+        public int SubmitScore(int points, string id)
         {
-            return 1;
+            var user = _context.Users.Where(u => u.Id == id).Single();
+            if (user == null)
+            {
+                throw new ApplicationException($"Unable to load user with ID '{id}'.");
+            }
+            Score score = new Score
+            {
+                Points = points,
+                DateTime = DateTime.Now,
+                User = user
+            };
+            _context.Scores.Add(score);
+            var result = _context.SaveChanges();
+
+            return result;
         }
 
         // GET: api/Questions
@@ -34,6 +48,34 @@ namespace Quiz_react.Controllers
         public IEnumerable<Question> GetQuestions()
         {
             return _context.Questions;
+        }
+
+        [HttpGet]
+        [Route("HighScore")]
+        public IEnumerable<FormattedScore> GetHighScore()
+        {
+
+            List<FormattedScore> scores = new List<FormattedScore>();
+            foreach (var score in _context.Scores)
+            {
+                scores.Add(new FormattedScore
+                {
+                    Id = score.Id,
+                    Points = score.Points,
+                    UserName = _context.Users.Where(u => u.Id == score.UserId).Single().UserName,
+                    Date = score.DateTime.ToString()
+                }
+                );
+            }
+            return scores.OrderByDescending(s => s.Points).ThenByDescending(s => s.Date);
+        }
+
+        public class FormattedScore
+        {
+            public int Id { get; set; }
+            public int Points { get; set; }
+            public string UserName { get; set; }
+            public string Date { get; set; }
         }
 
         // GET: api/Questions/5
