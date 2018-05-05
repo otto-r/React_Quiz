@@ -29,6 +29,40 @@ namespace Quiz_react.Controllers
             return 1;
         }
 
+        [HttpPost]
+        [Route("NewQuestion")]
+        public string NewQuestion(string text, string answerA, string answerB, string answerC, string answerD, string correctAnswer)
+        {
+            List<string> paramList = new List<string>
+            {
+                text,
+                answerA,
+                answerB,
+                answerC,
+                answerD,
+                correctAnswer
+            };
+
+            if (paramList.Any(s => s == null)) { return "Something set to null"; }
+            else
+            {
+                _context.Questions.AddAsync(
+                new Question
+                {
+                    Text = text,
+                    AnswerA = answerA,
+                    AnswerB = answerB,
+                    AnswerC = answerC,
+                    AnswerD = answerD,
+                    CorrectAnswer = correctAnswer
+                });
+                _context.SaveChangesAsync();
+
+                return "question probably added :)";
+            }
+
+        }
+
         // GET: api/Questions
         [HttpGet]
         public IEnumerable<Question> GetQuestions()

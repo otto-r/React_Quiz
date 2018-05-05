@@ -46,8 +46,10 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
     }
 
     public renderQuestionTable(questions: Question[], counter1: number) {
+        console.log('counter1: ' + counter1);
+
         return <div>
-            <h1>{counter1}</h1>
+            <h1>{counter}</h1>
             <form>
                 <table className='table'>
                     <thead>
@@ -61,32 +63,32 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
                     </thead>
                     <tbody>
                         <tr>
-                            <td>{questions[counter1].text}</td>
+                            <td>{questions[counter].text}</td>
                             <td><input onChange={this.handleAnswer}
                                 type="radio"
                                 name="answer"
                                 checked={this.state.selectedOption === 'A'}
-                                value="A" />{questions[counter1].answerA}</td>
+                                value="A" />{questions[counter].answerA}</td>
                             <td><input onChange={this.handleAnswer}
                                 type="radio"
                                 name="answer"
                                 checked={this.state.selectedOption === 'B'}
-                                value="B" />{questions[counter1].answerB}</td>
+                                value="B" />{questions[counter].answerB}</td>
                             <td><input onChange={this.handleAnswer}
                                 type="radio"
                                 name="answer"
                                 checked={this.state.selectedOption === 'C'}
-                                value="C" />{questions[counter1].answerC}</td>
+                                value="C" />{questions[counter].answerC}</td>
                             <td><input onChange={this.handleAnswer}
                                 type="radio"
                                 name="answer"
                                 checked={this.state.selectedOption === 'D'}
-                                value="D" />{questions[counter1].answerD}</td>
+                                value="D" />{questions[counter].answerD}</td>
                         </tr>
                     </tbody>
                 </table>
             </form>
-            <button onClick={this.submitAnswer}>Submit</button>
+            <button className="btn btn-default" onClick={this.submitAnswer}>Submit</button>
         </div>;
     }
 
