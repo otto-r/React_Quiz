@@ -65,6 +65,17 @@ namespace Quiz_react.Controllers
         }
 
         [HttpGet]
+        [Route("DeleteQuestion")]
+        public async Task<string> DeleteQuestion(int id)
+        {
+            var question = await _context.Questions.Where(q => q.Id == id).FirstOrDefaultAsync();
+
+            _context.Remove(question);
+            _context.SaveChanges();
+            return "Deleted question: " + question.Text + " with id: " + question.Id;
+        }
+
+        [HttpGet]
         [Route("EditQuestion")]
         public async Task<string> EditQuestion(int id, string text, string answerA, string answerB, string answerC, string answerD, string correctAnswer)
         {
@@ -159,25 +170,25 @@ namespace Quiz_react.Controllers
         }
 
         // DELETE: api/Questions/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //[HttpDelete("{id}")]
+        //public async Task<IActionResult> DeleteQuestion([FromRoute] int id)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            var question = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
-            if (question == null)
-            {
-                return NotFound();
-            }
+        //    var question = await _context.Questions.SingleOrDefaultAsync(m => m.Id == id);
+        //    if (question == null)
+        //    {
+        //        return NotFound();
+        //    }
 
-            _context.Questions.Remove(question);
-            await _context.SaveChangesAsync();
+        //    _context.Questions.Remove(question);
+        //    await _context.SaveChangesAsync();
 
-            return Ok(question);
-        }
+        //    return Ok(question);
+        //}
 
         private bool QuestionExists(int id)
         {

@@ -6,6 +6,7 @@ import { FetchData } from './components/FetchData';
 import { Counter } from './components/Counter';
 import { RenderQuestionAdd } from './components/RenderQuestionAdd';
 import { RenderEditQuestion } from './components/RenderEditQuestion';
+import { RenderDeleteQuestion } from './components/RenderDeleteQuestion';
 
 
 export const routes = <Layout>
@@ -13,4 +14,5 @@ export const routes = <Layout>
     <Route path='/counter' component={ Counter } />
     <Route path='/addquestion' component={RenderQuestionAdd} />
     <Route path='/editquestion' component={RenderEditQuestion} />
+    <Route path='/deletequestion' component={RenderDeleteQuestion} />
 </Layout>;
