@@ -95,8 +95,8 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
                         </tbody>
                     </table>
                 </form>
-                <button id='submitButton' onClick={this.submitAnswer}>Submit</button>
-                <button id='nextButton' hidden onClick={this.nextQuestion}>Next Question</button>
+                <button id='submitButton' className="btn btn-default" onClick={this.submitAnswer}>Submit</button>
+                <button id='nextButton' className="btn btn-default hidden" hidden onClick={this.nextQuestion}>Next Question</button>
                 <p id="result"></p>
             </div>;
         }
@@ -127,7 +127,10 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
         document.getElementById('result')!.className = '';
         this.setState({ counterState: counter });
         document.getElementById('submitButton')!.hidden = false;
+        document.getElementById('submitButton')!.className = 'btn btn-default';
         document.getElementById('nextButton')!.hidden = true;
+        document.getElementById('nextButton')!.className = 'btn btn-default hidden';
+
     }
 
     public submitAnswer(event: any) {
@@ -145,8 +148,11 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             document.getElementById('result')!.className = 'alert alert-danger';
             console.log('wrong');
         }
-        document.getElementById('submitButton')!.hidden = true;
-        document.getElementById('nextButton')!.hidden = false;
+        //document.getElementById('submitButton')!.hidden = true;
+        document.getElementById('submitButton')!.className = 'btn btn-default hidden';
+        //document.getElementById('nextButton')!.hidden = false;
+        document.getElementById('nextButton')!.className = 'btn btn-default';
+
     }
 
     submitScore() {
