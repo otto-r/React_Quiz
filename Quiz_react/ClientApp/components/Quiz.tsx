@@ -32,6 +32,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
         this.submitAnswer = this.submitAnswer.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
         this.restart = this.restart.bind(this);
+        this.nextQuestion = this.nextQuestion.bind(this);
 
         console.log(id);
 
@@ -80,12 +81,12 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
                                     name="answer"
                                     checked={this.state.selectedOption === 'B'}
                                     value="B" />{questions[counter1].answerB}</label></td>
-                                    <td><label><input onChange={this.handleAnswer}
+                                <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'C'}
                                     value="C" />{questions[counter1].answerC}</label></td>
-                                        <td><label><input onChange={this.handleAnswer}
+                                <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'D'}
@@ -94,7 +95,9 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
                         </tbody>
                     </table>
                 </form>
-                <button onClick={this.submitAnswer}>Submit</button>
+                <button id='submitButton' onClick={this.submitAnswer}>Submit</button>
+                <button id='nextButton' hidden onClick={this.nextQuestion}>Next Question</button>
+                <p id="result"></p>
             </div>;
         }
         else {
@@ -102,7 +105,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             this.submitScore();
             return <div>
                 <p>You finished with {this.state.pointsState} points!</p>
-                <p>Press this button to start again: 
+                <p>Press this button to start again:
                 <button onClick={this.restart}>Restart</button></p>
             </div>;
         }
@@ -115,7 +118,15 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
     restart() {
         points = 0;
         counter = 0;
-        this.setState({ counterState: counter, pointsState: points});
+        this.setState({ counterState: counter, pointsState: points });
+    }
+
+    nextQuestion() {
+        counter++;
+        document.getElementById('result')!.innerHTML = '';
+        this.setState({ counterState: counter });
+        document.getElementById('submitButton')!.hidden = false;
+        document.getElementById('nextButton')!.hidden = true;
     }
 
     public submitAnswer(event: any) {
@@ -125,12 +136,14 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             points++;
             this.setState({ pointsState: points })
             console.log('correct');
+            document.getElementById('result')!.innerHTML = 'Correct!';
         }
         else {
+            document.getElementById('result')!.innerHTML = 'Wrong!';
             console.log('wrong');
         }
-        counter++;
-        this.setState({ counterState: counter });
+        document.getElementById('submitButton')!.hidden = true;
+        document.getElementById('nextButton')!.hidden = false;
     }
 
     submitScore() {
