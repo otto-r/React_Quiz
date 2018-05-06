@@ -58,7 +58,7 @@ namespace Quiz_react.Controllers
                 });
                 _context.SaveChangesAsync();
 
-                return "question probably added :)";
+                return "Question probably added :)";
             }
 
         }
