@@ -29,7 +29,7 @@ namespace Quiz_react.Controllers
             return 1;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("NewQuestion")]
         public string NewQuestion(string text, string answerA, string answerB, string answerC, string answerD, string correctAnswer)
         {
@@ -46,8 +46,7 @@ namespace Quiz_react.Controllers
             if (paramList.Any(s => s == null)) { return "Something set to null"; }
             else
             {
-                _context.Questions.AddAsync(
-                new Question
+                Question question = new Question
                 {
                     Text = text,
                     AnswerA = answerA,
@@ -55,10 +54,13 @@ namespace Quiz_react.Controllers
                     AnswerC = answerC,
                     AnswerD = answerD,
                     CorrectAnswer = correctAnswer
-                });
-                _context.SaveChangesAsync();
+                };
+
+                _context.Questions.Add(question);
+                _context.SaveChanges();
 
                 return "Question probably added :)";
+
             }
         }
 

@@ -40,7 +40,7 @@ export class AddQuestion extends React.Component<IQuestionProps, IQuestionState>
         return (
             <div>
                 <h1>Add New Question</h1>
-                <form >
+                <div >
                     <div className="form-group">
                         <label htmlFor="text">Question: </label>
                         <input type="text" className="form-control" id="text"
@@ -84,7 +84,7 @@ export class AddQuestion extends React.Component<IQuestionProps, IQuestionState>
                             placeholder="Correct Answer" />
                     </div>
                     <button className="btn btn-default" onClick={this.addQuestion}>Add Question</button>
-                </form>
+                </div>
             </div>);
     }
     handleChangeText(event: any) {
