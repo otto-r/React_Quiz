@@ -37,6 +37,11 @@ export class NavMenu extends React.Component<{}, {}> {
                                 <span className='glyphicon glyphicon-th-list'></span> Add Question
                             </NavLink>
                         </li>
+                        <li>
+                            <NavLink to={'/editquestion'} activeClassName='active'>
+                                <span className='glyphicon glyphicon-th-list'></span> Edit Question
+                            </NavLink>
+                        </li>
                     </ul>
                 </div>
             </div>

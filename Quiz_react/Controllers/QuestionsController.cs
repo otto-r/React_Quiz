@@ -64,6 +64,24 @@ namespace Quiz_react.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("EditQuestion")]
+        public async Task<string> EditQuestion(int id, string text, string answerA, string answerB, string answerC, string answerD, string correctAnswer)
+        {
+            var question = await _context.Questions.Where(q => q.Id == id).FirstOrDefaultAsync();
+
+            question.Text = text;
+            question.AnswerA = answerA;
+            question.AnswerB = answerB;
+            question.AnswerC = answerC;
+            question.AnswerD = answerD;
+            question.CorrectAnswer = correctAnswer;
+
+            _context.Update(question);
+            _context.SaveChanges();
+            return "Saved changes to question: " + question.Text + " with id: " + question.Id;
+        }
+
         // GET: api/Questions
         [HttpGet]
         public IEnumerable<Question> GetQuestions()
