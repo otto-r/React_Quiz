@@ -124,6 +124,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
     nextQuestion() {
         counter++;
         document.getElementById('result')!.innerHTML = '';
+        document.getElementById('result')!.className = '';
         this.setState({ counterState: counter });
         document.getElementById('submitButton')!.hidden = false;
         document.getElementById('nextButton')!.hidden = true;
@@ -137,9 +138,11 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             this.setState({ pointsState: points })
             console.log('correct');
             document.getElementById('result')!.innerHTML = 'Correct!';
+            document.getElementById('result')!.className = "alert alert-success";
         }
         else {
             document.getElementById('result')!.innerHTML = 'Wrong!';
+            document.getElementById('result')!.className = 'alert alert-danger';
             console.log('wrong');
         }
         document.getElementById('submitButton')!.hidden = true;
