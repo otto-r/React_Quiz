@@ -46,7 +46,7 @@ namespace Quiz_react.Controllers
             if (paramList.Any(s => s == null)) { return "Something set to null"; }
             else
             {
-                _context.Questions.AddAsync(
+                _context.Questions.Add(
                 new Question
                 {
                     Text = text,
@@ -60,7 +60,6 @@ namespace Quiz_react.Controllers
 
                 return "Question probably added :)";
             }
-
         }
 
         // GET: api/Questions
