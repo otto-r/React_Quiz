@@ -70,26 +70,26 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
                         <tbody>
                             <tr>
                                 <td>{questions[counter1].text}</td>
-                                <td><input onChange={this.handleAnswer}
+                                <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'A'}
-                                    value="A" />{questions[counter1].answerA}</td>
-                                <td><input onChange={this.handleAnswer}
+                                    value="A" />{questions[counter1].answerA}</label></td>
+                                <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'B'}
-                                    value="B" />{questions[counter1].answerB}</td>
-                                <td><input onChange={this.handleAnswer}
+                                    value="B" />{questions[counter1].answerB}</label></td>
+                                    <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'C'}
-                                    value="C" />{questions[counter1].answerC}</td>
-                                <td><input onChange={this.handleAnswer}
+                                    value="C" />{questions[counter1].answerC}</label></td>
+                                        <td><label><input onChange={this.handleAnswer}
                                     type="radio"
                                     name="answer"
                                     checked={this.state.selectedOption === 'D'}
-                                    value="D" />{questions[counter1].answerD}</td>
+                                    value="D" />{questions[counter1].answerD}</label></td>
                             </tr>
                         </tbody>
                     </table>
@@ -136,10 +136,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
     submitScore() {
         fetch('api/Questions/SubmitScore?points=' + this.state.pointsState + '&id=' + id)
             .then(Response =>
-                console.log(Response))
-            .then(d =>
-                console.log('fetch successful', d)
-            );
+                console.log('fetch status: ', Response.status));
     }
 }
 
