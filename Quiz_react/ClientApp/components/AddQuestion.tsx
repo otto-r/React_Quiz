@@ -110,7 +110,8 @@ export class AddQuestion extends React.Component<IQuestionProps, IQuestionState>
             '&answerB=' + this.state.AnswerB + '&answerC=' + this.state.AnswerC + '&answerD=' + this.state.AnswerD +
             '&correctAnswer=' + this.state.CorrectAnswer)
             .then(Response => {
-                console.log(Response);
+                console.log(Response);  
+                console.log("******console after response*****");
             })
         this.setState({ hasFetchedData: false });
     }

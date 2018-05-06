@@ -92,7 +92,7 @@ namespace Quiz.Models
             },
             new Question
             {
-                Text = "What is the capital of Assyria?",
+                Text = "What is the capital of Assyria?(new)",
                 AnswerA = "Tyre",
                 AnswerB = "Aššur",
                 AnswerC = "Thebes",

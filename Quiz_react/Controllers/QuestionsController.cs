@@ -46,7 +46,7 @@ namespace Quiz_react.Controllers
             if (paramList.Any(s => s == null)) { return "Something set to null"; }
             else
             {
-                _context.Questions.Add(
+                _context.Questions.AddAsync(
                 new Question
                 {
                     Text = text,
