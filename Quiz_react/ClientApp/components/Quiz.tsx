@@ -106,7 +106,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             return <div>
                 <p>You finished with {this.state.pointsState} points!</p>
                 <p>Press this button to start again:
-                <button onClick={this.restart}>Restart</button></p>
+                <button className="btn btn-default" onClick={this.restart}>Restart</button></p>
             </div>;
         }
     }
