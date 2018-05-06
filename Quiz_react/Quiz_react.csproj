@@ -23,6 +23,18 @@
     <Content Remove="ClientApp\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="ClientApp\components\AddQuestion.tsx" />
+    <None Remove="ClientApp\components\DeleteQuestion.tsx" />
+    <None Remove="ClientApp\components\EditQuestion.tsx" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\components\DeleteQuestion.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\EditQuestion.tsx" />
+    <TypeScriptCompile Include="ClientApp\components\AddQuestion.tsx" />
+  </ItemGroup>
+
   <Target Name="DebugRunWebpack" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('wwwroot\dist') ">
     <!-- Ensure Node.js is installed -->
     <Exec Command="node --version" ContinueOnError="true">
