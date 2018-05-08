@@ -16,6 +16,12 @@ interface IQuestionsState {
     selectedOption: string;
     correctAnswer: string;
     pointsState: number;
+    result: string;
+    resultClassName: string;
+    submitButtonHidden: boolean;
+    submitButtonClassName: string;
+    nextButtonHidden: boolean;
+    nextButtonClassName: string;
 }
 
 export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
@@ -28,6 +34,13 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             selectedOption: '',
             correctAnswer: 'temp',
             pointsState: 0,
+            result: '',
+            resultClassName: '',
+            submitButtonHidden: false,
+            submitButtonClassName: 'btn btn-default',
+            nextButtonHidden: true,
+            nextButtonClassName: 'btn btn-default hidden'
+
         };
         this.submitAnswer = this.submitAnswer.bind(this);
         this.handleAnswer = this.handleAnswer.bind(this);
@@ -49,7 +62,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             : <p><em>Loading...</em></p>;
 
         return <div>
-            <h1>Questions</h1>
+            <div className="page-header"><h1>Questions</h1></div>
             {contents}
         </div>
     }
@@ -57,47 +70,48 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
     public renderQuestionTable(questions: Question[], counter1: number) {
         if (counter < questions.length) {
             return <div>
-                <form>
-                    <table className='table'>
-                        <thead>
-                            <tr>
-                                <th>Text</th>
-                                <th>A</th>
-                                <th>B</th>
-                                <th>C</th>
-                                <th>D</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{questions[counter1].text}</td>
-                                <td><label><input onChange={this.handleAnswer}
-                                    type="radio"
-                                    name="answer"
-                                    checked={this.state.selectedOption === 'A'}
-                                    value="A" />{questions[counter1].answerA}</label></td>
-                                <td><label><input onChange={this.handleAnswer}
-                                    type="radio"
-                                    name="answer"
-                                    checked={this.state.selectedOption === 'B'}
-                                    value="B" />{questions[counter1].answerB}</label></td>
-                                <td><label><input onChange={this.handleAnswer}
-                                    type="radio"
-                                    name="answer"
-                                    checked={this.state.selectedOption === 'C'}
-                                    value="C" />{questions[counter1].answerC}</label></td>
-                                <td><label><input onChange={this.handleAnswer}
-                                    type="radio"
-                                    name="answer"
-                                    checked={this.state.selectedOption === 'D'}
-                                    value="D" />{questions[counter1].answerD}</label></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </form>
-                <button id='submitButton' className="btn btn-default" onClick={this.submitAnswer}>Submit</button>
-                <button id='nextButton' className="btn btn-default hidden" hidden onClick={this.nextQuestion}>Next Question</button>
-                <p id="result"></p>
+                <div className="progress">
+                    <div id="progressbar" className="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100">
+                        <span className="sr-only">70% Complete</span>
+                    </div>
+                </div>
+                <ul className="list-group">
+                    <div><h3>{questions[counter1].text}</h3></div>
+                    <label className="list-group-item">
+                        <input onChange={this.handleAnswer}
+                            id='answerA'
+                            type="radio"
+                            name="answer"
+                            checked={this.state.selectedOption === 'A'}
+                            value="A" /> {questions[counter1].answerA}</label>
+                    <label className="list-group-item list-group-item-primary">
+                        <input onChange={this.handleAnswer}
+                            id='answerB'
+                            type="radio"
+                            name="answer"
+                            checked={this.state.selectedOption === 'B'}
+                            value="B" /> {questions[counter1].answerB}</label>
+                    <label className="list-group-item list-group-item-primary">
+                        <input onChange={this.handleAnswer}
+                            id='answerC'
+                            type="radio"
+                            name="answer"
+                            checked={this.state.selectedOption === 'C'}
+                            value="C" /> {questions[counter1].answerC}</label>
+                    <label className="list-group-item list-group-item-primary">
+                        <input onChange={this.handleAnswer}
+                            id='answerD'
+                            type="radio"
+                            name="answer"
+                            checked={this.state.selectedOption === 'D'}
+                            value="D" /> {questions[counter1].answerD}</label>
+                </ul>
+
+                <button className={this.state.submitButtonClassName} hidden={this.state.submitButtonHidden} onClick={this.submitAnswer}>Submit</button>
+                <button className={this.state.nextButtonClassName} hidden={this.state.nextButtonHidden} onClick={this.nextQuestion}>Next Question</button>
+                <div style={{minHeight: '20px'}}> </div>
+                <div className={this.state.resultClassName}>{this.state.result}</div>
+
             </div>;
         }
         else {
@@ -105,8 +119,7 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             this.submitScore();
             return <div>
                 <p>You finished with {this.state.pointsState} points!</p>
-                <p>Press this button to start again:
-                <button className="btn btn-default" onClick={this.restart}>Restart</button></p>
+                <button className="btn btn-default" onClick={this.restart}>Restart</button>
             </div>;
         }
     }
@@ -123,14 +136,15 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
 
     nextQuestion() {
         counter++;
-        document.getElementById('result')!.innerHTML = '';
-        document.getElementById('result')!.className = '';
+        this.setState({ result: '' });
+        this.setState({ resultClassName: '' });
         this.setState({ counterState: counter });
-        document.getElementById('submitButton')!.hidden = false;
-        document.getElementById('submitButton')!.className = 'btn btn-default';
-        document.getElementById('nextButton')!.hidden = true;
-        document.getElementById('nextButton')!.className = 'btn btn-default hidden';
-
+        this.setState({ submitButtonHidden: false });
+        this.setState({ submitButtonClassName: 'btn btn-default' });
+        this.setState({ nextButtonHidden: true });
+        this.setState({ nextButtonClassName: 'btn btn-default hidden' });
+        document.getElementById('progressbar')!.style.width = counter / this.state.questions.length * 100 + '%';
+        this.setState({ selectedOption: '' });
     }
 
     public submitAnswer(event: any) {
@@ -140,19 +154,16 @@ export class Quiz extends React.Component<IQuestionsProps, IQuestionsState> {
             points++;
             this.setState({ pointsState: points })
             console.log('correct');
-            document.getElementById('result')!.innerHTML = 'Correct!';
-            document.getElementById('result')!.className = "alert alert-success";
+            this.setState({ result: 'Correct!' });
+            this.setState({ resultClassName: 'alert alert-success' });
         }
         else {
-            document.getElementById('result')!.innerHTML = 'Wrong!';
-            document.getElementById('result')!.className = 'alert alert-danger';
+            this.setState({ result: 'Wrong!' });
+            this.setState({ resultClassName: 'alert alert-danger' });
             console.log('wrong');
         }
-        //document.getElementById('submitButton')!.hidden = true;
-        document.getElementById('submitButton')!.className = 'btn btn-default hidden';
-        //document.getElementById('nextButton')!.hidden = false;
-        document.getElementById('nextButton')!.className = 'btn btn-default';
-
+        this.setState({ submitButtonClassName: 'btn btn-default hidden' });
+        this.setState({ nextButtonClassName: 'btn btn-default' });
     }
 
     submitScore() {
